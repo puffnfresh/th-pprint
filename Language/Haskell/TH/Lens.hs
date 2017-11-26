@@ -134,6 +134,8 @@ expName f (ConE a) =
   ConE <$> f a
 expName f (LamE a b) =
   LamE <$> (traverse . patName) f a <*> expName f b
+expName f (LetE a b) =
+  LetE <$> (traverse . decName) f a <*> expName f b
 expName f (CaseE a b) =
   CaseE <$> expName f a <*> (traverse . matchName) f b
 expName f a =
