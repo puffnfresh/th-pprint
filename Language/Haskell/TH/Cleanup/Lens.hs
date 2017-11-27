@@ -1,5 +1,6 @@
 module Language.Haskell.TH.Cleanup.Lens (
-  _SigD
+  _FunD
+, _SigD
 , _Name
 , _Match
 , decChildren
@@ -17,6 +18,11 @@ module Language.Haskell.TH.Cleanup.Lens (
 import Control.Lens
 import Language.Haskell.TH
 import Language.Haskell.TH.Syntax
+
+_FunD :: Prism' Dec (Name, [Clause])
+_FunD = prism (\(x1_0, x2_1) -> FunD x1_0 x2_1) (\x_2 -> case x_2 of
+                                                             FunD y1_3 y2_4 -> Right (y1_3, y2_4)
+                                                             _ -> Left x_2)
 
 _SigD :: Prism' Dec (Name, Type)
 _SigD = prism (\(a, b) -> SigD a b) (\a -> case a of

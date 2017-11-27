@@ -5,6 +5,7 @@ module Language.Haskell.TH.Cleanup.Rules (
 , removeModName
 , removeAllModNames
 , simplifyDec
+, simplifyClause
 ) where
 
 import Control.Lens
@@ -40,4 +41,15 @@ removeAllModNames =
 
 simplifyDec :: Dec -> Dec
 simplifyDec =
-  _SigD . _2 %~ removeEmptyForall
+  (_SigD . _2 %~ removeEmptyForall) .
+  (_FunD . _2 . single %~ simplifyClause)
+
+single :: Traversal' [a] a
+single f [a] =
+  (:[]) <$> f a
+single f xs =
+  pure xs
+
+simplifyClause :: Clause -> Clause
+simplifyClause (Clause [] (NormalB (LamE pats b)) []) =
+  Clause pats (NormalB b) []
