@@ -119,9 +119,9 @@ decName f (FunD a b) =
 decName f (ValD a b c) =
   ValD <$> patName f a <*> (bodyExp . expName) f b <*> (traverse . decName) f c
 decName f (ClassD a b c d e) =
-  ClassD a <$> f b <*> pure c <*> pure d <*> (traverse . decName) f e
+  ClassD <$> (traverse . typeName) f a <*> f b <*> pure c <*> pure d <*> (traverse . decName) f e
 decName f (InstanceD a b c d) =
-  InstanceD a b <$> typeName f c <*> (traverse . decName) f d
+  InstanceD a <$> (traverse . typeName) f b <*> typeName f c <*> (traverse . decName) f d
 decName f (SigD a b) =
   SigD <$> f a <*> typeName f b
 decName f (DefaultSigD a b) =
