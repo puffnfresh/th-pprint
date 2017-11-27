@@ -126,6 +126,8 @@ decName f (SigD a b) =
   SigD <$> f a <*> typeName f b
 decName f (DefaultSigD a b) =
   DefaultSigD <$> f a <*> typeName f b
+decName f (TySynInstD a (TySynEqn b c)) =
+  TySynInstD <$> f a <*> (TySynEqn <$> (traverse . typeName) f b <*> typeName f c)
 decName _ a =
   pure a
 
