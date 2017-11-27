@@ -1,4 +1,4 @@
-module Language.Haskell.TH.Lens (
+module Language.Haskell.TH.Cleanup.Lens (
   _SigD
 , _Name
 , _Match

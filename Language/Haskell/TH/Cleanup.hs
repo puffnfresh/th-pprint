@@ -6,7 +6,7 @@ module Language.Haskell.TH.Cleanup (
 import Control.Lens
 import Language.Haskell.TH
 import Language.Haskell.TH.Cleanup.Rules
-import Language.Haskell.TH.Lens
+import Language.Haskell.TH.Cleanup.Lens
 import Language.Haskell.TH.PprLib
 import qualified Text.PrettyPrint as HPJ
 

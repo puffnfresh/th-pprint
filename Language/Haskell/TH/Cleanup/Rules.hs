@@ -9,7 +9,7 @@ module Language.Haskell.TH.Cleanup.Rules (
 
 import Control.Lens
 import Language.Haskell.TH
-import Language.Haskell.TH.Lens
+import Language.Haskell.TH.Cleanup.Lens
 import Language.Haskell.TH.Syntax
 
 emptyForallT :: Type -> Maybe Type
