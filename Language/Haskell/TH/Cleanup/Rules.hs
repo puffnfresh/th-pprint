@@ -47,9 +47,11 @@ simplifyDec =
 single :: Traversal' [a] a
 single f [a] =
   (:[]) <$> f a
-single f xs =
+single _ xs =
   pure xs
 
 simplifyClause :: Clause -> Clause
 simplifyClause (Clause [] (NormalB (LamE pats b)) []) =
   Clause pats (NormalB b) []
+simplifyClause c =
+  c
