@@ -21,4 +21,4 @@ renderNoLength =
 -- > putStrLn $(simplifiedTH =<< makePrisms ''Either)
 simplifiedTH :: [Dec] -> ExpQ
 simplifiedTH =
-  stringE . renderNoLength . fmap (transformOf decChildren simplifyDec . removeAllModNames)
+  stringE . renderNoLength . fmap (transform simplifyDec . removeAllModNames)

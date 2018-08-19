@@ -1,6 +1,5 @@
 module Language.Haskell.TH.Cleanup.Rules (
   emptyForallT
-, removeEmptyForall
 , filterModName
 , removeModName
 , removeAllModNames
@@ -19,17 +18,14 @@ emptyForallT (ForallT [] _ a) =
 emptyForallT _ =
   Nothing
 
-removeEmptyForall :: Type -> Type
-removeEmptyForall =
-  rewriteOf typeChildren emptyForallT
-
 filterModName :: (ModName -> Bool) -> Name -> Name
 filterModName f =
   _Name . _2 %~ f'
-  where f' n@(NameG _ _ c) =
-          if f c then n else NameS
-        f' n =
-          n
+  where
+    f' (NameG _ _ c) | not (f c)=
+      NameS
+    f' n =
+      n
 
 removeModName :: Name -> Name
 removeModName =
@@ -41,7 +37,7 @@ removeAllModNames =
 
 simplifyDec :: Dec -> Dec
 simplifyDec =
-  (_SigD . _2 %~ removeEmptyForall) .
+  (rewriteOn (_SigD . _2) emptyForallT) .
   (_FunD . _2 . single %~ simplifyClause)
 
 single :: Traversal' [a] a
